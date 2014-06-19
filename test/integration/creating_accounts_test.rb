@@ -9,8 +9,10 @@ class CreatingAccountsTest < ActionDispatch::IntegrationTest
     assert_equal 201, response.status
     assert_equal Mime::JSON, response.content_type
 
-    account = json response.body
-    assert_equal account_url(account[:id]), response.location
+    # NOTE - The following test no longer applies since we're now
+    # only returning a header after a successful POST
+    # account = json response.body
+    # assert_equal account_url(account[:id]), response.location
   end
 
   test 'do not create accounts without names' do

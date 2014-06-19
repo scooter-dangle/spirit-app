@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
   def create
     account = Account.new account_params
     if account.save
-      render json: account, status: 201, location: account
+      head 201, location: account
     else
       render json: account.errors, status: 422
     end
