@@ -11,12 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140619040453) do
+ActiveRecord::Schema.define(version: 20140619081015) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "domains", force: true do |t|
+    t.string   "hostname"
+    t.string   "ip_address"
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "domains", ["account_id"], name: "index_domains_on_account_id", using: :btree
 
 end
