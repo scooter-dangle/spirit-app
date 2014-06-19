@@ -3,7 +3,7 @@ require 'test_helper'
 class ListingDomainsClass < ActionDispatch::IntegrationTest
   setup { @account = Account.create! name: 'Fred' }
   test 'returns domains list' do
-    Domain.create! account_id: @account.id, hostname: 'theonion.com'
+    @account.domains.create ip_address: 'n/a', hostname: 'theonion.com'
     get '/domains'
 
     assert response.success?

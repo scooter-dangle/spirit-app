@@ -27,7 +27,7 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
 
 
   test 'do not create domains with duplicate hostnames' do
-    Domain.create! account_id: @account.id, hostname: 'theonion.com'
+    @account.domains.create hostname: 'theonion.com', ip_address: 'n/a'
     post '/domains',
       { domain: { account_id: @account.id, hostname: 'theonion.com' } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
@@ -38,7 +38,7 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
 
   test 'do not create domains without an account' do
     post '/domains',
-      { domain: { hostname: 'theonion.com' } }.to_json,
+      { domain: { hostname: 'theonion.com', ip_address: 'n/a' } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
     assert_equal 422, response.status

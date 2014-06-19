@@ -1,7 +1,8 @@
 require 'test_helper.rb'
 
 class UpdatingDomainsTest < ActionDispatch::IntegrationTest
-  setup { @domain = Domain.create! hostname: 'thefacebook.com' }
+  setup { @account = Account.create! name: 'Zucks' }
+  setup { @domain  = @account.domains.create  hostname: 'thefacebook.com', ip_address: '0.0.3.3' }
 
   test 'update success' do
     patch "/domains/#{@domain.id}",

@@ -1,8 +1,10 @@
 require 'test_helper.rb'
 
 class DeletingDomainsTest < ActionDispatch::IntegrationTest
-  setup { @account = Account.create! name: 'Fred' }
-  setup { @domain  = Domain.create!  account_id: @account.id, hostname: 'theonion.com' }
+  setup do
+    @account = Account.create! name: 'Fred'
+    @domain  = @account.domains.create hostname: 'theonion.com', ip_address: 'n/a'
+  end
 
   test 'deletes domain' do
     delete "/domains/#{@domain.id}"

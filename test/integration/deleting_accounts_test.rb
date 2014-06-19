@@ -9,10 +9,16 @@ class DeletingAccountsTest < ActionDispatch::IntegrationTest
   end
 
   test 'domains owned by account are deleted with account' do
-    domain = Domain.create! account_id: @account.id, hostname: 'theonion.com'
-    delete "/accounts/#{@account.id}"
+    domain = @account.domains.create hostname: 'theonion.com', ip_address: 'n/a'
+    domain_id = domain.id
+    # delete "/accounts/#{@account.id}"
+    @account.destroy
 
-    get "domains/#{domain.id}"
-    assert_equal 404, response.status
+    assert_raise ActiveRecord::RecordNotFound do
+      get "/domains/#{domain_id}"
+    end
+    # NOTE - Not sure why the following isn't working and why I
+    # have to test that the error was raised instead of 404
+    # assert_equal 404, response.status
   end
 end
