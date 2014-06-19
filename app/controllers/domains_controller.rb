@@ -19,7 +19,7 @@ class DomainsController < ApplicationController
   end
 
   def create
-    domain = Domain.new domain_params
+    domain = Domain.new domain_params.merge({ip_address: 'n/a'})
     if domain.save
       head 201, location: domain
     else
@@ -29,7 +29,7 @@ class DomainsController < ApplicationController
 
   def update
     domain = Domain.find params[:id]
-    if domain.update domain_params
+    if domain.update domain_params.merge({ip_address: 'n/a'})
       head 200
     else
       render json: domain.errors, status: 422
@@ -44,7 +44,7 @@ class DomainsController < ApplicationController
 
   private
   def domain_params
-    params.require(:domain).permit :domain_id, :hostname
+    params.require(:domain).permit :account_id, :hostname
   end
 end
 
