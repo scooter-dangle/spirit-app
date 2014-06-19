@@ -25,6 +25,8 @@ class AccountsController < ApplicationController
     account = Account.find params[:id]
     if account.update account_params
       head 200
+    else
+      render json: account.errors, status: 422
     end
   end
 
