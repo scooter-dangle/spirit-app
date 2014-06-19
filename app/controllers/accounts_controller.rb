@@ -21,6 +21,13 @@ class AccountsController < ApplicationController
     end
   end
 
+  def update
+    account = Account.find params[:id]
+    if account.update account_params
+      head 200
+    end
+  end
+
   private
   def account_params
     params.require(:account).permit :name
