@@ -42,7 +42,7 @@ If you have a Ruby 2.1.x version already installed on your system as well as mys
 *  libmysqlclient-dev
 *  mysql-server
 
-On Mac OS X, the [ruby-build wiki](github.com/sstephenson/ruby-build/wiki) says to (_direct quote follows_) install Xcode Command Line Tools (`xcode-select --install`) and Homebrew. Then:
+On Mac OS X, the [ruby-build wiki](https://github.com/sstephenson/ruby-build/wiki) says to (_direct quote follows_) install Xcode Command Line Tools (`xcode-select --install`) and Homebrew. Then:
 
   ```sh
     brew install mysql
