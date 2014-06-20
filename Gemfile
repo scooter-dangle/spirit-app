@@ -14,6 +14,10 @@ gem 'sdoc', '~> 0.4.0',      group: :doc
 # consoleconsole
 gem 'pry-rails', group: :development
 
+# for non-blocking Resolv IP address lookup
+gem 'daemons'
+gem 'delayed_job_active_record'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
