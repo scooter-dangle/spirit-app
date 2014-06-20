@@ -18,6 +18,9 @@ gem 'pry-rails', group: :development
 gem 'daemons'
 gem 'delayed_job_active_record'
 
+# For running it locally
+gem 'foreman', group: :development
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
