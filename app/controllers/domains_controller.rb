@@ -23,7 +23,8 @@ class DomainsController < ApplicationController
   def create
     domain = Domain.new domain_params.merge({ip_address: 'n/a'})
     if domain.save
-      ip_lookup domain.id, hostname: domain_params[:hostname]
+      # ip_lookup domain.id, hostname: domain_params[:hostname]
+      Delayed::Job.enqueue DomainsHelper::IpLookup.new(domain.id, domain_params[:hostname])
       head 201, location: domain
     else
       render json: domain.errors, status: 422
@@ -36,7 +37,8 @@ class DomainsController < ApplicationController
     full_params.merge!({ip_address: 'n/a'}) unless domain.hostname == full_params[:hostname]
     if domain.update full_params
       if full_params[:ip_address] == 'n/a'
-        ip_lookup domain.id, hostname: (domain_params[:hostname] || domain.hostname)
+        # ip_lookup domain.id, hostname: (domain_params[:hostname] || domain.hostname)
+        Delayed::Job.enqueue DomainsHelper::IpLookup.new(domain.id, (domain_params[:hostname] || domain.hostname))
       end
       head 200
     else
@@ -54,15 +56,5 @@ class DomainsController < ApplicationController
   def domain_params
     params.require(:domain).permit :account_id, :hostname
   end
-
-  def ip_lookup domain_id, hostname
-    begin
-      ip_address = Resolv.getaddress hostname
-    rescue Resolv::ResolvError
-      ip_address = 'invalid'
-    end
-    Domain.update domain_id, ip_address: ip_address
-  end
-  handle_asynchronously :ip_lookup
 end
 
