@@ -1,4 +1,8 @@
 require 'test_helper.rb'
+# For testing ip lookup
+require 'resolv'
+
+Delayed::Worker.delay_jobs = false
 
 class CreatingDomainsTest < ActionDispatch::IntegrationTest
   setup { @account = Account.create! name: 'Fred' }
@@ -14,6 +18,38 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
     # only returning a header after a successful POST
     # domain = json response.body
     # assert_equal domain_url(domain[:id]), response.location
+  end
+
+  test 'create new domain with correct ip address' do
+    # See configuration above for Delayed::Worker...
+    # This test will *not* behave asynchronously.
+    hostname = 'example.com'
+    post '/domains',
+      { domain: { account_id: @account.id, hostname: hostname } }.to_json,
+      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+
+    domain = Domain.find_by hostname: hostname
+
+    begin
+      ip_address = Resolv.getaddress hostname
+    rescue Resolv::ResolvError
+      ip_address = 'invalid'
+    end
+
+    assert_equal domain.ip_address, ip_address
+  end
+
+  test 'create new domain with invalid ip address' do
+    # See configuration above for Delayed::Worker...
+    # This test will *not* behave asynchronously.
+    hostname = 'not_a_real_hostname'
+    post '/domains',
+      { domain: { account_id: @account.id, hostname: hostname } }.to_json,
+      { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+
+    domain = Domain.find_by hostname: hostname
+
+    assert_equal domain.ip_address, 'invalid'
   end
 
   test 'do not create domains without hostnames' do
