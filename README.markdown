@@ -22,8 +22,9 @@ Edit the MySql username and password fields in config/database.yml to reflect yo
   rake test:all
   ```
 
-Run
----
+Run locally: `foreman start`
+(Note: Uses port 5000 rather than 3000)
+
 
 
 System dependencies
@@ -62,15 +63,10 @@ Other potential setup issues
 ----------------------------
 If you installed bundler using a different version of Ruby, you may need (I think) uninstall and re-install with with `gem install bundler --env-shebang`. Your results may vary and depend on what ruby version manager you use.
 
+Next Steps
+----------
 
-* Configuration
+* Improve test coverage (including async testing of ip lookup)
+* Update README to show how to interact with locally running app using curl
+* Validate hostnames (before calling Resolv) with publicsuffix-ruby (and send back relevant http status for invalid hostnames)
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
