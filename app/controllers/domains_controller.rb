@@ -23,8 +23,7 @@ class DomainsController < ApplicationController
   def create
     domain = Domain.new domain_params.merge({ip_address: 'n/a'})
     if domain.save
-      # ip_lookup domain.id, hostname: domain_params[:hostname]
-      Delayed::Job.enqueue DomainsHelper::IpLookup.new(domain.id, domain_params[:hostname])
+      domain.delay.ip_lookup!
       head 201, location: domain
     else
       render json: domain.errors, status: 422
@@ -37,8 +36,7 @@ class DomainsController < ApplicationController
     full_params.merge!({ip_address: 'n/a'}) unless domain.hostname == full_params[:hostname]
     if domain.update full_params
       if full_params[:ip_address] == 'n/a'
-        # ip_lookup domain.id, hostname: (domain_params[:hostname] || domain.hostname)
-        Delayed::Job.enqueue DomainsHelper::IpLookup.new(domain.id, (domain_params[:hostname] || domain.hostname))
+        domain.delay.ip_lookup!
       end
       head 200
     else
