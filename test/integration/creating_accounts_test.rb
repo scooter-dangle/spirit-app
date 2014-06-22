@@ -9,7 +9,6 @@ class CreatingAccountsTest < ActionDispatch::IntegrationTest
 
     account = Account.find_by name: name
     assert_equal 204, response.status
-    assert_equal Mime::JSON, response.content_type
     assert_equal account_url(account.id), response.location
 
     # NOTE - The following test no longer applies since we're now

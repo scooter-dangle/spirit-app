@@ -14,7 +14,6 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
 
     domain = Domain.find_by hostname: hostname
     assert_equal 204, response.status
-    assert_equal Mime::JSON, response.content_type
     assert_equal domain_url(domain.id), reponse.location
 
     # NOTE - The following test no longer applies since we're now
