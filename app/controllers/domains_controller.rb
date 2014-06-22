@@ -24,7 +24,7 @@ class DomainsController < ApplicationController
     domain = Domain.new domain_params.merge({ip_address: 'n/a'})
     if domain.save
       domain.delay.ip_lookup!
-      head 201, location: domain
+      head 204, location: domain
     else
       render json: domain.errors, status: 422
     end
@@ -38,7 +38,7 @@ class DomainsController < ApplicationController
       if full_params[:ip_address] == 'n/a'
         domain.delay.ip_lookup!
       end
-      head 200
+      head 204
     else
       render json: domain.errors, status: 422
     end

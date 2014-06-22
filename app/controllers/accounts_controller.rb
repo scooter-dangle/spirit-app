@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
   def create
     account = Account.new account_params
     if account.save
-      head 201, location: account
+      head 204, location: account
     else
       render json: account.errors, status: 422
     end
@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
   def update
     account = Account.find params[:id]
     if account.update account_params
-      head 200
+      head 204
     else
       render json: account.errors, status: 422
     end
