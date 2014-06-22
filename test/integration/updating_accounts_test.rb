@@ -8,7 +8,7 @@ class UpdatingAccountsTest < ActionDispatch::IntegrationTest
       { account: { name: 'Kosh aka Raggedy Puppy' } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
-    assert response.success?
+    assert_equal 204, response.status
     assert_equal 'Kosh aka Raggedy Puppy', @account.reload.name
   end
 

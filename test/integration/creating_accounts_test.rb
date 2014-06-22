@@ -6,7 +6,7 @@ class CreatingAccountsTest < ActionDispatch::IntegrationTest
       { account: { name: 'Whitney' } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
-    assert_equal 201, response.status
+    assert_equal 204, response.status
     assert_equal Mime::JSON, response.content_type
 
     # NOTE - The following test no longer applies since we're now

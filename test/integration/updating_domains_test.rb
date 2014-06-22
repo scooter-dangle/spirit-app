@@ -13,7 +13,7 @@ class UpdatingDomainsTest < ActionDispatch::IntegrationTest
       { domain: { hostname: 'facebook.com' } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
-    assert response.success?
+    assert_equal 204, response.status
     assert_equal 'facebook.com', @domain.reload.hostname
   end
 
