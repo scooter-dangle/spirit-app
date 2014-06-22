@@ -5,8 +5,10 @@ require 'resolv'
 Delayed::Worker.delay_jobs = false
 
 class UpdatingDomainsTest < ActionDispatch::IntegrationTest
-  setup { @account = Account.create! name: 'Zucks' }
-  setup { @domain  = @account.domains.create  hostname: 'thefacebook.com', ip_address: '0.0.3.3' }
+  setup do
+    @account = Account.create! name: 'Zucks'
+    @domain  = @account.domains.create  hostname: 'thefacebook.com', ip_address: '0.0.3.3'
+  end
 
   test 'update success' do
     patch "/domains/#{@domain.id}",

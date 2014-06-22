@@ -57,7 +57,7 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
 
   test 'do not create domains without hostnames' do
     post '/domains',
-      { domain: { account_id: @account.id, fake_param: '' } }.to_json,
+      { domain: { account_id: @account.id } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
     assert_equal 422, response.status
