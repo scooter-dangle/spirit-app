@@ -7,12 +7,15 @@ Delayed::Worker.delay_jobs = false
 class CreatingDomainsTest < ActionDispatch::IntegrationTest
   setup { @account = Account.create! name: 'Fred' }
   test 'create new domain' do
+    hostname = 'theonion.com'
     post '/domains',
-      { domain: { account_id: @account.id, hostname: 'theonion.com' } }.to_json,
+      { domain: { account_id: @account.id, hostname: hostname } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
+    domain = Domain.find_by hostname: hostname
     assert_equal 204, response.status
     assert_equal Mime::JSON, response.content_type
+    assert_equal domain_url(domain.id), reponse.location
 
     # NOTE - The following test no longer applies since we're now
     # only returning a header after a successful POST

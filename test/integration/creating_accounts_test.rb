@@ -2,12 +2,15 @@ require 'test_helper.rb'
 
 class CreatingAccountsTest < ActionDispatch::IntegrationTest
   test 'create new account' do
+    name = 'Whitney'
     post '/accounts',
-      { account: { name: 'Whitney' } }.to_json,
+      { account: { name: name } }.to_json,
       { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
+    account = Account.find_by name: name
     assert_equal 204, response.status
     assert_equal Mime::JSON, response.content_type
+    assert_equal account_url(account.id), response.location
 
     # NOTE - The following test no longer applies since we're now
     # only returning a header after a successful POST
