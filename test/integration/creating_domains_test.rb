@@ -14,7 +14,7 @@ class CreatingDomainsTest < ActionDispatch::IntegrationTest
 
     domain = Domain.find_by hostname: hostname
     assert_equal 204, response.status
-    assert_equal domain_url(domain.id), reponse.location
+    assert_equal domain_url(domain.id), response.location
 
     # NOTE - The following test no longer applies since we're now
     # only returning a header after a successful POST
